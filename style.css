@@ -1,0 +1,120 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #e0f2f7; /* Jasnoniebieskie tło */
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: #333;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.container {
+    background-color: #ffffff; /* Białe tło kontenera */
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 700px; /* Szerokość kontenera dostosowana do 2x2 kafelków */
+    display: flex; /* Używamy flexboxa dla wyśrodkowania elementów wertykalnie */
+    flex-direction: column;
+    align-items: center; /* Wyśrodkowanie elementów horyzontalnie */
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Dwie kolumny o równej szerokości */
+    gap: 20px; /* Odstęp między kafelkami */
+    width: 100%; /* Kontener siatki zajmuje całą szerokość rodzica */
+    margin-bottom: 20px; /* Odstęp między siatką a dolnym kafelkiem */
+}
+
+.tile {
+    background-color: #f7f9fb; /* Bardzo jasne tło kafelka */
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease-in-out;
+    text-align: center; /* Wyśrodkowanie tekstu w kafelku */
+}
+
+.tile:hover {
+    transform: translateY(-5px); /* Lekkie uniesienie kafelka po najechaniu */
+}
+
+h1 {
+    color: #2c3e50;
+    margin-bottom: 40px;
+    font-size: 2.5em;
+    font-weight: 600;
+    text-align: center; /* Wyśrodkowanie nagłówka */
+    width: 100%; /* Upewnij się, że nagłówek zajmuje całą dostępną szerokość */
+}
+
+.tile h2 {
+    color: #34495e;
+    margin-top: 0;
+    font-size: 1.3em;
+    border-bottom: 1px solid #dcdcdc; /* Delikatna linia pod nagłówkiem kafelka */
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.tile h3 {
+    color: #555;
+    margin-top: 0;
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
+.tile p {
+    font-size: 2.8em; /* Duże wartości pomiarów */
+    font-weight: bold;
+    color: #2980b9; /* Niebieski kolor wartości */
+    margin: 10px 0 0;
+}
+
+.full-width-tile {
+    grid-column: 1 / -1; /* Ten kafelek rozciąga się na wszystkie kolumny w siatce */
+    width: 100%; /* Upewnij się, że zajmuje całą szerokość */
+}
+
+#refreshButton {
+    background-color: #28a745; /* Zielony kolor przycisku odświeżania */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+    margin-top: 30px;
+}
+
+#refreshButton:hover {
+    background-color: #218838; /* Ciemniejszy zielony po najechaniu */
+    transform: translateY(-2px);
+}
+
+/* Responsywność dla mniejszych ekranów */
+@media (max-width: 768px) {
+    .grid-container {
+        grid-template-columns: 1fr; /* Na małych ekranach kafelki układają się w jednej kolumnie */
+    }
+
+    .container {
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 2em;
+        margin-bottom: 30px;
+    }
+
+    .tile p {
+        font-size: 2.2em;
+    }
+}

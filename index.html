@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moja Stacja Pogodowa</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3498db"/>
+    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
+    <link rel="shortcut icon" href="icons/icon-512x512.png" type="image/png">
+</head>
+<body>
+    <div class="container">
+        <h1>Moja Stacja Pogodowa</h1>
+
+        <div class="grid-container">
+            <div class="tile">
+                <h2>W Domu</h2>
+                <h3>Temperatura w domu</h3>
+                <p id="tempDom">-.- °C</p>
+            </div>
+
+            <div class="tile">
+                <h2>W Domu</h2>
+                <h3>Wilgotność w domu</h3>
+                <p id="wilgotnoscDom">-.- %</p>
+            </div>
+
+            <div class="tile">
+                <h2>Na Zewnątrz</h2>
+                <h3>Temperatura na zewnątrz</h3>
+                <p id="tempZew">-.- °C</p>
+            </div>
+
+            <div class="tile">
+                <h2>Na Zewnątrz</h2>
+                <h3>Wilgotność na zewnatrz</h3>
+                <p id="wilgotnoscZew">-.- %</p>
+            </div>
+        </div>
+
+        <div class="tile full-width-tile">
+            <h2>Na Zewnątrz</h2>
+            <h3>Ciśnienie na zewnatrz</h3>
+            <p id="cisnienieZew">-.- hPa</p>
+        </div>
+
+        <button id="refreshButton">Odśwież Dane</button>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Rejestracja Service Workera
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker zarejestrowany:', registration);
+                    })
+                    .catch(error => {
+                        console.error('Błąd rejestracji Service Workera:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
