@@ -37,17 +37,21 @@ self.addEventListener('fetch', event => {
     );
 });
 
-self.addEventListener('activate', event => {
-    const cacheWhitelist = [CACHE_NAME];
-    event.waitUntil(
-        caches.keys().then(cacheNames => {
-            return Promise.all(
-                cacheNames.map(cacheName => {
-                    if (cacheWhitelist.indexOf(cacheName) === -1) {
-                        return caches.delete(cacheName);
-                    }
-                })
-            );
-        })
-    );
+self.addEventListener('fetch', event => {
+    // Jeśli zapytanie dotyczy danych z ThingSpeak, pobieraj ZAWSZE z sieci (nie z cache)
+    if (event.request.url.includes('api.thingspeak.com')) {
+        event.respondWith(
+            fetch(event.request).catch(() => {
+                // Jeśli nie ma internetu, spróbuj jednak poszukać w cache (awaryjnie)
+                return caches.match(event.request);
+            })
+        );
+    } else {
+        // Dla plików strony (style, ikony) stosuj standardowy cache
+        event.respondWith(
+            caches.match(event.request).then(response => {
+                return response || fetch(event.request);
+            })
+        );
+    }
 });
