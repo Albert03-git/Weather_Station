@@ -2,67 +2,121 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Moja Stacja Pogodowa</title>
-    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Stacja Pogodowa</title>
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#3498db"/>
-    <link rel="apple-touch-icon" href="icons/icon-192x192.png">
-    <link rel="shortcut icon" href="icons/icon-512x512.png" type="image/png">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#e0f2fe">
+    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Moja Stacja Pogodowa</h1>
+    <header>
+        <h1 id="header-title">W domu</h1>
+        <div class="status" id="last-update">Aktualizowanie...</div>
+    </header>
 
-        <div class="grid-container">
-            <div class="tile">
-                <h2>W Domu</h2>
-                <h3>Temperatura w domu</h3>
-                <p id="tempDom">-.- °C</p>
+    <!-- ZAKŁADKA W DOMU -->
+    <div id="tab-home" class="tab-content active">
+        <div class="grid">
+            <div class="card card-full clock-card">
+                <i data-feather="clock"></i>
+                <div class="clock-time" id="live-time">00:00:00</div>
+                <div class="clock-date" id="live-date">poniedziałek, 1 stycznia</div>
             </div>
-
-            <div class="tile">
-                <h2>W Domu</h2>
-                <h3>Wilgotność w domu</h3>
-                <p id="wilgotnoscDom">-.- %</p>
+            <div class="card temp-card">
+                <i data-feather="thermometer"></i>
+                <h3>Temperatura</h3>
+                <div class="value" id="home-temp">--.- °C</div>
             </div>
-
-            <div class="tile">
-                <h2>Na Zewnątrz</h2>
-                <h3>Temperatura na zewnątrz</h3>
-                <p id="tempZew">-.- °C</p>
-            </div>
-
-            <div class="tile">
-                <h2>Na Zewnątrz</h2>
-                <h3>Wilgotność na zewnatrz</h3>
-                <p id="wilgotnoscZew">-.- %</p>
+            <div class="card hum-card">
+                <i data-feather="droplet"></i>
+                <h3>Wilgotność</h3>
+                <div class="value" id="home-hum">--.- %</div>
             </div>
         </div>
-
-        <div class="tile full-width-tile">
-            <h2>Na Zewnątrz</h2>
-            <h3>Ciśnienie na zewnatrz</h3>
-            <p id="cisnienieZew">-.- hPa</p>
-        </div>
-
-        <button id="refreshButton">Odśwież Dane</button>
     </div>
 
+    <!-- ZAKŁADKA NA ZEWNĄTRZ -->
+    <div id="tab-outdoor" class="tab-content">
+        <div class="grid">
+            <div class="card temp-card">
+                <i data-feather="thermometer"></i>
+                <h3>Temperatura</h3>
+                <div class="value" id="out-temp">--.- °C</div>
+            </div>
+            <div class="card hum-card">
+                <i data-feather="droplet"></i>
+                <h3>Wilgotność</h3>
+                <div class="value" id="out-hum">--.- %</div>
+            </div>
+            <div class="card press-card card-full">
+                <i data-feather="navigation"></i>
+                <h3>Ciśnienie</h3>
+                <div class="value" id="out-press">----.- hPa</div>
+            </div>
+            <div class="card wind-card">
+                <i data-feather="wind"></i>
+                <h3>Wiatr chwilowy</h3>
+                <div class="value" id="out-wind">--.- km/h</div>
+            </div>
+            <div class="card wind-card">
+                <i data-feather="activity"></i>
+                <h3>Wiatr 24h</h3>
+                <div class="value" id="out-wind-avg">--.- km/h</div>
+            </div>
+            <div class="card compass-card card-full">
+                <i data-feather="compass"></i>
+                <h3>Kierunek wiatru</h3>
+                <div class="value" id="out-dir">--</div>
+            </div>
+            <div class="card rain-card">
+                <i data-feather="cloud-rain"></i>
+                <h3>Opad 1h</h3>
+                <div class="value" id="out-rain-1h">--.- mm</div>
+            </div>
+            <div class="card rain-card">
+                <i data-feather="umbrella"></i>
+                <h3>Opad 24h</h3>
+                <div class="value" id="out-rain-24h">--.- mm</div>
+            </div>
+            <div class="card battery-card card-full" id="battery-card">
+                <i data-feather="battery"></i>
+                <h3>Napięcie baterii</h3>
+                <div class="value" id="out-bat">--.- V</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- USTAWIENIA -->
+    <div id="tab-settings" class="tab-content">
+        <div class="settings-container">
+            <div class="settings-group">
+                <label for="min-battery">Minimalne Napięcie Baterii</label>
+                <div class="slider-wrapper">
+                    <input type="range" id="min-battery" min="2.5" max="4.5" step="0.1" value="3.3">
+                    <span class="slider-value" id="min-battery-val">3.3 V</span>
+                </div>
+                <div class="alert-box">
+                    Gdy napięcie baterii stacji zewnętrznej spadnie poniżej ustawionej wartości, kafelek baterii zmieni kolor na czerwony.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAWIGACJA -->
+    <nav class="nav-bar">
+        <button class="nav-item active" onclick="switchTab('home')">
+            <span class="emoji">🏠</span>W domu
+        </button>
+        <button class="nav-item" onclick="switchTab('outdoor')">
+            <span class="emoji">⛅</span>Na zewnątrz
+        </button>
+        <button class="nav-item" onclick="switchTab('settings')">
+            <span class="emoji">⚙️</span>Ustawienia
+        </button>
+    </nav>
+
+    <!-- Ładowanie logiki JavaScript -->
     <script src="script.js"></script>
-    <script>
-        // Rejestracja Service Workera
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker zarejestrowany:', registration);
-                    })
-                    .catch(error => {
-                        console.error('Błąd rejestracji Service Workera:', error);
-                    });
-            });
-        }
-    </script>
 </body>
 </html>
